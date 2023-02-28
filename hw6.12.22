@@ -1,0 +1,84 @@
+1) 
+	a) function power(x, n) {
+  if (n === 0) {
+    return 1;
+  }
+  return x * power(x, n - 1);
+}
+
+	b) function power(x, n) {
+  if (n === 0) {
+    return 1;
+  }
+  if (n % 2 === 0) {
+    const y = power(x, n / 2);
+    return y * y;
+  } else {
+    return x * power(x, n - 1);
+  }
+}
+
+2)function findKthElement(arr1, arr2, k) {
+  let i = 0;
+  let j = 0;
+  let merged = [];
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      merged.push(arr1[i]);
+      i++;
+    } else {
+      merged.push(arr2[j]);
+      j++;
+    }
+  }
+  merged = merged.concat(arr1.slice(i)).concat(arr2.slice(j));
+  return merged[k - 1];
+}
+
+const arr1 = [100, 112, 256, 349, 770];
+const arr2 = [72, 86, 113, 119, 265, 445, 892];
+const k = 7;
+console.log(findKthElement(arr1, arr2, k)); // 256
+
+3)function countOccurrences(arr, x) {
+  let firstIndex = findFirst(arr, x, 0, arr.length-1);
+  let lastIndex = findLast(arr, x, 0, arr.length-1);
+  if (firstIndex === -1) {
+    return 0;
+  }
+  return lastIndex - firstIndex + 1;
+}
+
+function findFirst(arr, x, low, high) {
+  if (high >= low) {
+    let mid = low + Math.floor((high - low)/2);
+    if ((mid === 0 || x > arr[mid-1]) && arr[mid] === x) {
+      return mid;
+    } else if (x > arr[mid]) {
+      return findFirst(arr, x, (mid + 1), high);
+    } else {
+      return findFirst(arr, x, low, (mid -1));
+    }
+  }
+  return -1;
+}
+
+function findLast(arr, x, low, high) {
+  if (high >= low) {
+    let mid = low + Math.floor((high - low)/2);
+    if ((mid === arr.length-1 || x < arr[mid+1]) && arr[mid] === x) {
+      return mid;
+    } else if (x < arr[mid]) {
+      return findLast(arr, x, low, (mid -1));
+    } else {
+      return findLast(arr, x, (mid + 1), high);
+    }
+  }
+  return -1;
+}
+
+let arr = [1, 1, 2, 2, 2, 2, 3];
+let x = 2;
+let count = countOccurrences(arr, x);
+console.log(count); // Вывод: 4
+
